@@ -7,16 +7,33 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(googletest)
-add_library(GTest::GTest INTERFACE IMPORTED)
-target_link_libraries(GTest::GTest INTERFACE gtest_main)
 
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CHILD1_PATH "${CMAKE_BINARY_DIR}/lab1/child_1")
+set(CHILD2_PATH "${CMAKE_BINARY_DIR}/lab1/child_2")
 
-add_executable(lab1_test lab1_tests.cpp ../lab1/scr/utils.c ../lab1/scr/parent.c 
-        ../lab1/scr/child_1.c ../lab1/scr/child_2.c ../lab1/include/utils.h 
-        ../lab1/include/parent.h)
-target_link_libraries(lab1_test PRIVATE GTest::GTest)
-target_include_directories(lab1_test PRIVATE ../lab1/include)
+add_executable(lab1_test 
+    lab1_tests.cpp
+    ${CMAKE_SOURCE_DIR}/lab1/src/parent.c
+    ${CMAKE_SOURCE_DIR}/lab1/src/utils.c
+)
 
-add_test(lab1_test lab1_test)
+add_dependencies(lab1_test child_1 child_2)
+
+target_include_directories(lab1_test PRIVATE 
+    ${CMAKE_SOURCE_DIR}/lab1/include
+)
+
+target_compile_definitions(lab1_test PRIVATE
+    CHILD1_PATH="${CHILD1_PATH}"
+    CHILD2_PATH="${CHILD2_PATH}"
+)
+
+target_link_libraries(lab1_test PRIVATE 
+    gtest
+    gtest_main
+)
+
+add_test(NAME lab1_test COMMAND lab1_test)

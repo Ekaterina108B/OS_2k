@@ -23,17 +23,33 @@ char* ReadString(FILE* stream){
 
     char read;
     int index = 0;
-    while ((read = getc(stream)) != EOF){
+    while ((read = fgetc(stream)) != EOF){
+        if (read == '\0'){
+            free(buffer);
+            return NULL;
+        }
+        
         buffer[index++] = read;
+        if (read == '\n'){
+            break;
+        }
+        
         if(index == buffer_size){
             buffer = realloc(buffer, buffer_size + MAX_SIZE);
             buffer_size += MAX_SIZE;
         }
-        if (read == '\n'){
-            break;
-        }
     }
-    buffer[index] = '\0';
-
+    
+    if (index == 0){
+        free(buffer);
+        return NULL;
+    }
+    
+    if (buffer[index-1] == '\n'){
+        buffer[index-1] = '\0';
+    } else {
+        buffer[index] = '\0';
+    }
+    
     return buffer;
 }

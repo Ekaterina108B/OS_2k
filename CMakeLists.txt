@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(OS_LABS C CXX)
+project(OS_2k C CXX)
 
 enable_testing()
 
@@ -13,5 +13,4 @@ endif()
 include(FindThreads)
 
 add_subdirectory(lab1)
-
 add_subdirectory(tests)

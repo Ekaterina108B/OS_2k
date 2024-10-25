@@ -4,8 +4,8 @@
 #include "parent.h"
 
 int main(void) {
-
-    ParentRoutine(getenv("PATH_TO_CHILD_1"), getenv("PATH_TO_CHILD_2"), stdin);
+    srand(12345);
+    ParentRoutine("./lab1/child_1", "./lab1/child_2", stdin);
 
     return 0;
 }

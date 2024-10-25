@@ -26,7 +26,7 @@ int main(const int count_arg, const char* arg[]){
             input[input_len-i-1] = copy;
         }
 
-        fprintf(file, &input, sizeof(input));
+        fprintf(file, "%s\n", input);
         free(input);
     }
 

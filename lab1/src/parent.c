@@ -23,9 +23,10 @@ void ParentRoutine(const char* path_to_child_1, const char* path_to_child_2, FIL
         close(pipe_fd_1[WRITE_END]);
         dup2(pipe_fd_1[READ_END], 0);
 
-        char* arg[2];
+        char* arg[3];
         arg[0] = "child_1";
         arg[1] = file_name_1;
+        arg[2] = NULL;
         
         if(execv(path_to_child_1, arg) == -1){
             printf("Failed to exec\n");
@@ -41,16 +42,16 @@ void ParentRoutine(const char* path_to_child_1, const char* path_to_child_2, FIL
         close(pipe_fd_2[WRITE_END]);
         dup2(pipe_fd_2[READ_END], 0);
 
-        char* arg[2];
-        arg[0] = "child_1";
-        arg[1] = file_name_1;
+        char* arg[3];
+        arg[0] = "child_2";
+        arg[1] = file_name_2;
+        arg[2] = NULL;
         
         if(execv(path_to_child_2, arg) == -1){
             printf("Failed to exec\n");
         }
     }
 
-    srand(time(0));
     close(pipe_fd_1[READ_END]);
     close(pipe_fd_2[READ_END]);
     char* input = NULL;
@@ -59,16 +60,17 @@ void ParentRoutine(const char* path_to_child_1, const char* path_to_child_2, FIL
         chance = (rand() % 5) + 1;
         if (chance < 5){
             //передаю первому ребёнку
-            write(pipe_fd_1[WRITE_END], &input, sizeof(input));
+            write(pipe_fd_1[WRITE_END], input, strlen(input));
+            write(pipe_fd_1[WRITE_END], "\n", 1);
         } else {
             //передаю второму ребёнку
-            write(pipe_fd_2[WRITE_END], &input, sizeof(input));
+            write(pipe_fd_2[WRITE_END], input, strlen(input));
+            write(pipe_fd_2[WRITE_END], "\n", 1);
         }
         free(input);
     }
-    input = NULL;
-    write(pipe_fd_1[WRITE_END], &input, sizeof(input));
-    write(pipe_fd_2[WRITE_END], &input, sizeof(input));
+    write(pipe_fd_1[WRITE_END], "\0", 1);
+    write(pipe_fd_2[WRITE_END], "\0", 1);
 
     close(pipe_fd_1[WRITE_END]);
     close(pipe_fd_2[WRITE_END]);
