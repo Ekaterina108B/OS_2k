@@ -21,7 +21,7 @@ protected:
         system("rm -f test_output1.txt test_output2.txt");
     }
 
-    std::string ReadFileContents(const std::string& filename) {
+    std::string ReadFileContents(const std::string &filename) {
         std::ifstream file(filename);
         std::string content((std::istreambuf_iterator<char>(file)),
                            std::istreambuf_iterator<char>());
@@ -29,7 +29,7 @@ protected:
     }
 };
 
-TEST_F(MainTest, NormalInputFlow) {
+TEST_F(MainTest, NormalInput) {
     FILE* temp = tmpfile();
     fprintf(temp, "test_output1.txt\ntest_output2.txt\nHello\nWorld\nTest\n");
     rewind(temp);
