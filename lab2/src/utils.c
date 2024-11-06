@@ -7,7 +7,7 @@ void CreatePipe(int pipe_fd[2]){
     }
 }
 
-void Fisher_Yates_algorithm(int coloda[]){
+void Fisher_Yates_algorithm(int* coloda){
     srand(time(NULL) ^ getpid());
 
     for (int i = COLODA_SIZE - 1; i > 0; --i){
