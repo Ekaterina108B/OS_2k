@@ -36,6 +36,7 @@ double Process(int count_of_fork, int count_of_raunds){
     }
     
     result = (double)count_of_matches / (double)count_of_raunds;
+    printf("Total matches: %d of %d rounds.\n", count_of_matches, count_of_raunds);
     return result;
 }
 
@@ -48,6 +49,6 @@ int Monte_Carlo_Maps(int count_of_raunds) {
         Fisher_Yates_algorithm(coloda);
         if ((coloda[0] % RANK) == (coloda[1] % RANK)){ ++count_of_matches; }
     }
-
+    
     return count_of_matches;
 }
