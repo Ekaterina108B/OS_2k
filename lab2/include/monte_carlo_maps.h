@@ -3,9 +3,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/wait.h>
+#include <pthread.h>
 
-double Process(int count_of_fork, int count_of_raunds);
-int Monte_Carlo_Maps(int count_of_raunds);
+typedef struct {
+    int raunds;
+    int matches;
+} ThreadData;
+
+double Process(int count_of_thread, int count_of_raunds);
+void* Monte_Carlo_Maps(void *arg);
 
 #endif
