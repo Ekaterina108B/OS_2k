@@ -30,7 +30,6 @@ double Process(int count_of_thread, int count_of_raunds){
 void* Monte_Carlo_Maps(void *arg){
     ThreadData *data = (ThreadData *)arg;
     int local_count = 0;
-    srand(time(NULL) ^ pthread_self());
     
     int coloda[COLODA_SIZE];
     for  (int i = 0; i < COLODA_SIZE; ++i){ coloda[i] = i; }
