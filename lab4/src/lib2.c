@@ -1,6 +1,5 @@
 #include "lib2.h"
-#include <cstring>
-#include <cstdlib>
+#include <stdlib.h>
 
 int GCF(int a, int b) {
     if(a < 1 || b < 1){
@@ -23,7 +22,7 @@ char* translation(long x) {
         return 0;
     }
     
-    char* result = new char[65];
+    char* result = (char*)malloc(65 * sizeof(char));
     int i = 0;
     
     if(x == 0) {
