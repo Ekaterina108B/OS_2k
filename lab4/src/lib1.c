@@ -1,5 +1,4 @@
 #include "lib1.h"
-#include <stdlib.h>
 
 int GCF(int a, int b) {
     if(a < 0 || b < 0){
@@ -36,7 +35,7 @@ char* translation(long x) {
     }
     result[i] = '\0';
     
-    for(int j=0; j<i/2+1; ++j) {
+    for(int j=0; j<i/2; ++j) {
         char temp = result[j];
         result[j] = result[i-1-j];
         result[i-1-j] = temp;

@@ -5,7 +5,7 @@ int main() {
     int command;
     
     while(1) {
-        scanf("%d", command);
+        scanf("%d", &command);
 
         if(command == 1){
             int a, b, result;
