@@ -2,8 +2,8 @@
 #include <stdlib.h>
 
 int GCF(int a, int b) {
-    if(a < 1 || b < 1){
-        printf("Numbers must be natural.\n");
+    if(a < 0 || b < 0){
+        printf("Numbers must be natural or 0.\n");
         return 0;
     }
     
