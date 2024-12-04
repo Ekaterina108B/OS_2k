@@ -1,6 +1,4 @@
-#include <string.h>
-#include <zmq.h>
-#include "message.h"
+include "message.h"
 
 int send_message(void* socket, Message* msg) {
     return zmq_send(socket, msg, sizeof(Message), 0);

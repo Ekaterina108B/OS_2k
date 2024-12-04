@@ -4,6 +4,8 @@
 #include <stdbool.h>
 #include <sys/types.h>
 #include <signal.h>
+#include <stdlib.h>
+#include <string.h>
 
 typedef struct TreeNode {
     int id;

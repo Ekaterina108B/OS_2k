@@ -2,6 +2,7 @@
 #define MESSAGE_H
 
 #include <zmq.h>
+#include <string.h>
 
 #define MAX_BUFFER_SIZE 1024
 #define CMD_CREATE "CREATE"

@@ -1,5 +1,3 @@
-#include <stdlib.h>
-#include <string.h>
 #include "tree.h"
 
 TreeNode* create_node(int id, pid_t pid, const char* endpoint) {
@@ -13,13 +11,13 @@ TreeNode* create_node(int id, pid_t pid, const char* endpoint) {
 }
 
 TreeNode* insert_node(TreeNode* root, int id, pid_t pid, const char* endpoint) {
-    if (root == NULL){
+    if(root == NULL){
         return create_node(id, pid, endpoint);
     }
 
-    if (id < root->id){
+    if(id < root->id){
         root->left = insert_node(root->left, id, pid, endpoint);
-    } else if (id > root->id){
+    } else if(id > root->id){
         root->right = insert_node(root->right, id, pid, endpoint);
     }
 
@@ -27,9 +25,9 @@ TreeNode* insert_node(TreeNode* root, int id, pid_t pid, const char* endpoint) {
 }
 
 TreeNode* find_node(TreeNode* root, int id) {
-    if (root == NULL || root->id == id){ return root; }
+    if(root == NULL || root->id == id){ return root; }
 
-    if (id < root->id){
+    if(id < root->id){
         return find_node(root->left, id);
     }
     return find_node(root->right, id);
@@ -37,25 +35,25 @@ TreeNode* find_node(TreeNode* root, int id) {
 
 TreeNode* find_min_node(TreeNode* node) {
     TreeNode* current = node;
-    while (current && current->left != NULL) {
+    while(current && current->left != NULL) {
         current = current->left;
     }
     return current;
 }
 
 TreeNode* delete_node_recursive(TreeNode* root, int id) {
-    if (root == NULL){ return root; }
+    if(root == NULL){ return root; }
     
-    if (id < root->id) {
+    if(id < root->id) {
         root->left = delete_node_recursive(root->left, id);
-    } else if (id > root->id) {
+    } else if(id > root->id) {
         root->right = delete_node_recursive(root->right, id);
     } else {
-        if (root->left == NULL) {
+        if(root->left == NULL) {
             TreeNode* temp = root->right;
             free(root);
             return temp;
-        } else if (root->right == NULL) {
+        } else if(root->right == NULL) {
             TreeNode* temp = root->left;
             free(root);
             return temp;
@@ -79,7 +77,7 @@ bool is_node_exists(TreeNode* root, int id) {
 }
 
 void kill_tree(TreeNode* root) {
-    if (root != NULL) {
+    if(root != NULL) {
         kill_tree(root->left);
         kill_tree(root->right);
         kill(root->pid, SIGTERM);
@@ -87,7 +85,7 @@ void kill_tree(TreeNode* root) {
 }
 
 void free_tree(TreeNode* root) {
-    if (root != NULL) {
+    if(root != NULL) {
         free_tree(root->left);
         free_tree(root->right);
         free(root);
