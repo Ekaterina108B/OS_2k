@@ -70,7 +70,7 @@ void check_pending_responses(void) {
         }
         
         time_t now = time(NULL);
-        if(now - current->timestamp >= 1) {
+        if(now - current->timestamp > 5) {
             if(strcmp(current->command, CMD_PING) == 0) {
                 printf("Ok: 0\n");
             } else if(strcmp(current->command, CMD_EXEC) == 0) {
