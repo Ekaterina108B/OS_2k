@@ -68,7 +68,7 @@ void start_compute_node(int id, int parent_id) {
 }
 
 int check_parent(void* context, int parent_id, int id) {
-    if(parent_id < 0) return 1;
+    if(parent_id < 0) { return 1; }
     
     void* parent_socket = zmq_socket(context, ZMQ_REQ);
     char parent_endpoint[64];

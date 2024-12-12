@@ -47,7 +47,7 @@ int main() {
         int rc = zmq_poll(items, 1, 100);
         cleanup_pending_operations();
         check_pending_responses();
-        if (rc == 0) continue;
+        if (rc == 0) { continue; }
         if (items[0].revents & ZMQ_POLLIN) {
             if (fgets(command, MAX_CMD_LENGTH, stdin) == NULL) {
                 break;
