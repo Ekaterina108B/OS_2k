@@ -162,7 +162,7 @@ void play_game(void) {
     printf("\nYou've joined the game '%s'\n", game_name);
     printf("Number of players: %d/%d\n", current_game->current_players, current_game->required_players);
 
-    if(current_game->has_new_guess && strlen(current_game->last_guess_word) > 0 && current_game->last_guess_client_id != 0) {
+    if(strlen(current_game->last_guess_word) > 0 && current_game->last_guess_client_id != 0) {
         printf("Last guess: player %d attempted '%s' - %d bulls, %d cows\n",
                current_game->last_guess_client_id,
                current_game->last_guess_word,
