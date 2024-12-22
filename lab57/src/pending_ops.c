@@ -87,7 +87,7 @@ void check_pending_responses(void) {
                         
                         char endpoint[64];
                         sprintf(endpoint, "tcp://localhost:%d", 5555 + current->id);
-                        TreeNode* root = insert_node(root, current->id, pid, endpoint, msg.target_id);
+                        root = insert_node(root, current->id, pid, endpoint, msg.target_id);
                         printf("Ok: %d\n", pid);
                     } else {
                         printf("Error: %s\n", msg.data);
@@ -130,7 +130,7 @@ void check_pending_responses(void) {
 
             zmq_close(current->socket);
             zmq_ctx_destroy(current->context);
-            
+
             PendingOperation* to_delete = current;
             if(prev){ current = prev->next; }
             else { current = pending_ops; }
