@@ -13,9 +13,10 @@ typedef struct {
     char command[16];
     int source_id;
     int target_id;
-    char data[MAX_BUFFER_SIZE];
-    unsigned long request_id;
+    int create_child_id;
+    int response;
     int is_response;
+    char data[MAX_BUFFER_SIZE];
 } Message;
 
 int send_message(void* socket, Message* msg);
