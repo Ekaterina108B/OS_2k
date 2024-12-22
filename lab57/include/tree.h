@@ -35,4 +35,7 @@ bool is_node_exists(TreeNode* root, int id);
 void kill_tree(TreeNode* root);
 void free_tree(TreeNode* root);
 
+void print_tree_node(TreeNode* node, int level, char* prefix, int is_left);
+void print_tree(TreeNode* root);
+
 #endif

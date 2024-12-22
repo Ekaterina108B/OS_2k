@@ -153,3 +153,12 @@ int exec_command(int id, const char* text, const char* pattern) {
     add_pending_operation(id, socket, context, CMD_EXEC);
     return 0;
 } 
+
+int show_tree(void){
+    if(root == NULL){
+        printf("Error: Tree is empty\n");
+        return -1;
+    }
+    print_tree(root);
+    return 0;
+} 

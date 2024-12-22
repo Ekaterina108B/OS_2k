@@ -116,3 +116,40 @@ void free_tree(TreeNode* root) {
         free(root);
     }
 }
+
+void print_tree_node(TreeNode* node, int level, char* prefix, int is_left) {
+    if(node == NULL) { return; }
+
+    printf("%s", prefix);
+    printf("%c", is_left ? '\\' : '/');
+    printf("--%d\n", node->id);
+
+    char new_prefix[256];
+    strcpy(new_prefix, prefix);
+    
+    if(is_left){ strcat(new_prefix, "  "); }
+    else { strcat(new_prefix, "| "); }
+
+    if(node->left){
+        print_tree_node(node->left, level + 1, new_prefix, 0);
+    }
+    if(node->right){
+        print_tree_node(node->right, level + 1, new_prefix, 1);
+    }
+}
+
+void print_tree(TreeNode* root) {
+    if(root == NULL){
+        printf("Empty tree\n");
+        return;
+    }
+
+    printf("%d\n", root->id);
+    char prefix[256] = "";
+    if(root->left){
+        print_tree_node(root->left, 1, prefix, 0);
+    }
+    if(root->right){
+        print_tree_node(root->right, 1, prefix, 1);
+    }
+}
