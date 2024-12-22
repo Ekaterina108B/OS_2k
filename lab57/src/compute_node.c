@@ -3,11 +3,9 @@
 static int node_id;
 static void* left_socket;
 static void* right_socket;
-static void* parent_socket;
 
 void* create_socket(int timeout) {
     void* socket = zmq_socket(zmq_ctx_new(), ZMQ_REQ);
-    int timeout = timeout;
     int linger = 0;
     zmq_setsockopt(socket, ZMQ_RCVTIMEO, &timeout, sizeof(timeout));
     zmq_setsockopt(socket, ZMQ_SNDTIMEO, &timeout, sizeof(timeout));
@@ -152,7 +150,7 @@ void handle_message(Message* msg) {
     }
 }
 
-void start_compute_node(int id, int parent_id) {
+void start_compute_node(int id) {
     node_id = id;
     void* context = zmq_ctx_new();
     void* socket = zmq_socket(context, ZMQ_REP);
@@ -174,8 +172,18 @@ void start_compute_node(int id, int parent_id) {
 int check_parent(void* context, int parent_id, int id) {
     if(parent_id < 0){ return 1; }
     
-    void* parent_socket = create_socket(1000);
-    connect_to_child(parent_socket, parent_id);
+    void* parent_socket = zmq_socket(context, ZMQ_REQ);
+    char parent_endpoint[64];
+    sprintf(parent_endpoint, "tcp://localhost:%d", 5555 + parent_id);
+    int timeout = 1000;
+    int linger = 0;
+    zmq_setsockopt(parent_socket, ZMQ_RCVTIMEO, &timeout, sizeof(timeout));
+    zmq_setsockopt(parent_socket, ZMQ_SNDTIMEO, &timeout, sizeof(timeout));
+    zmq_setsockopt(parent_socket, ZMQ_LINGER, &linger, sizeof(linger));
+    if(zmq_connect(parent_socket, parent_endpoint) != 0){
+        zmq_close(parent_socket);
+        return 0;
+    }
 
     Message msg = {0};
     strcpy(msg.command, CMD_PING);
@@ -202,7 +210,6 @@ int main(int argc, char *argv[]) {
     }
 
     int id = atoi(argv[1]);
-    int parent_id = atoi(argv[2]);
-    start_compute_node(id, parent_id);
+    start_compute_node(id);
     return 0;
 } 

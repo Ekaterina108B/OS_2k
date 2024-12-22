@@ -17,7 +17,6 @@ typedef struct TreeNode {
     char endpoint[64];
     void* left_socket;
     void* right_socket;
-    void* parent_socket;
     struct TreeNode* left;
     struct TreeNode* right;
     struct TreeNode* parent;

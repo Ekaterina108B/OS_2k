@@ -7,9 +7,6 @@ TreeNode* create_node(int id, pid_t pid, const char* endpoint, TreeNode* parent)
     node->pid = pid;
     strncpy(node->endpoint, endpoint, sizeof(node->endpoint) - 1);
     node->endpoint[sizeof(node->endpoint)-1] = '\0';
-    node->left_socket = NULL;
-    node->right_socket = NULL;
-    node->parent_socket = NULL;
     node->left = NULL;
     node->right = NULL;
     node->parent = parent;

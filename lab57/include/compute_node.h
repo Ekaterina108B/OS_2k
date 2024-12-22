@@ -16,7 +16,7 @@ void* setup_child_connection(int child_id);
 bool try_child_socket(void** socket, Message* msg, const char* side);
 char* find_substring(const char* text, const char* pattern);
 void handle_message(Message* msg);
-void start_compute_node(int id, int parent_id);
+void start_compute_node(int id);
 int check_parent(void* context, int parent_id, int id);
 
 #endif
