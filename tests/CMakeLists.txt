@@ -11,29 +11,34 @@ FetchContent_MakeAvailable(googletest)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CHILD1_PATH "${CMAKE_BINARY_DIR}/lab1/child_1")
-set(CHILD2_PATH "${CMAKE_BINARY_DIR}/lab1/child_2")
+include_directories(${ZMQ_INCLUDE_DIRS})
 
-add_executable(lab1_test 
-    lab1_tests.cpp
-    ${CMAKE_SOURCE_DIR}/lab1/src/parent.c
-    ${CMAKE_SOURCE_DIR}/lab1/src/utils.c
+enable_testing()
+
+add_library(common_lib
+    ../lab57/src/message.c
+    ../lab57/src/tree.c
 )
 
-add_dependencies(lab1_test child_1 child_2)
+target_include_directories(common_lib PUBLIC ../lab57/include)
 
-target_include_directories(lab1_test PRIVATE 
-    ${CMAKE_SOURCE_DIR}/lab1/include
+add_executable(test_tree lab57_tree.cpp)
+target_link_libraries(test_tree 
+    gtest 
+    gtest_main 
+    pthread 
+    zmq
+    common_lib
 )
 
-target_compile_definitions(lab1_test PRIVATE
-    CHILD1_PATH="${CHILD1_PATH}"
-    CHILD2_PATH="${CHILD2_PATH}"
+add_executable(test_message lab57_message.cpp)
+target_link_libraries(test_message 
+    gtest 
+    gtest_main 
+    pthread 
+    zmq
+    common_lib
 )
 
-target_link_libraries(lab1_test PRIVATE 
-    gtest
-    gtest_main
-)
-
-add_test(NAME lab1_test COMMAND lab1_test)
+add_test(NAME TreeTest COMMAND test_tree)
+add_test(NAME MessageTest COMMAND test_message)
