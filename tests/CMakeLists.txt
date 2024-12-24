@@ -7,20 +7,38 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(googletest)
-add_library(GTest::GTest INTERFACE IMPORTED)
-target_link_libraries(GTest::GTest INTERFACE gtest_main)
 
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CMAKE_CXX_STANDARD 20)
+include_directories(${ZMQ_INCLUDE_DIRS})
 
-add_executable(lab4_test_lib1 lab4_test_lib1.cpp)
-target_link_libraries(lab4_test_lib1 PRIVATE GTest::GTest)
-target_link_libraries(lab4_test_lib1 PRIVATE math1)
-target_include_directories(lab4_test_lib1 PRIVATE ../lab4/include)
-add_test(lab4_test_lib1 lab4_test_lib1)
+enable_testing()
 
-add_executable(lab4_test_lib2 lab4_test_lib2.cpp)
-target_link_libraries(lab4_test_lib2 PRIVATE GTest::GTest)
-target_link_libraries(lab4_test_lib2 PRIVATE math2)
-target_include_directories(lab4_test_lib2 PRIVATE ../lab4/include)
-add_test(lab4_test_lib2 lab4_test_lib2)
+add_library(common_lib
+    ../lab57/src/message.c
+    ../lab57/src/tree.c
+)
+
+target_include_directories(common_lib PUBLIC ../lab57/include)
+
+add_executable(test_tree lab57_tree.cpp)
+target_link_libraries(test_tree 
+    gtest 
+    gtest_main 
+    pthread 
+    zmq
+    common_lib
+)
+
+add_executable(test_message lab57_message.cpp)
+target_link_libraries(test_message 
+    gtest 
+    gtest_main 
+    pthread 
+    zmq
+    common_lib
+)
+
+add_test(NAME TreeTest COMMAND test_tree)
+add_test(NAME MessageTest COMMAND test_message)
