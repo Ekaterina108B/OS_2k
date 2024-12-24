@@ -18,28 +18,38 @@ TreeNode* insert_node(TreeNode* root, int id, pid_t pid, const char* endpoint, i
         return create_node(id, pid, endpoint, NULL);
     }
 
-    TreeNode* parent_node = NULL;
-    TreeNode* current = root;
-    while(current != NULL){
-        parent_node = current;
+    if(parent_id == -1){
+        if(id < root->id){
+            root->left = insert_node(root->left, id, pid, endpoint, parent_id);
+        } else if(id>root->id){
+            root->right = insert_node(root->right, id, pid, endpoint, parent_id);
+        }
 
-        if(current->id == parent_id || parent_id == -1){
-            if(id < current->id){
-                current = current->left;
-            } else {
-                current = current->right;
-            }
+    } else if(root->id == parent_id){
+        if(root->left != NULL && root->right != NULL){ return root; }
+        else if(root->left == NULL && root->right != NULL){
+            root->left = create_node(id, pid, endpoint, root);
+        } else if(root->left != NULL && root->right == NULL){
+            root->right = create_node(id, pid, endpoint, root);
         } else {
-            if(id < current->id){ current = current->left; }
-            else { current = current->right; }
+            if(id < parent_id){
+                root->left = create_node(id, pid, endpoint, root);
+            } else {
+                root->right = create_node(id, pid, endpoint, root);                }
+        }
+    } else {
+        TreeNode* left_result = NULL;
+        TreeNode* right_result = NULL;
+
+        if(root->left){
+            left_result = insert_node(root->left, id, pid, endpoint, parent_id);
+            if(left_result != root->left){ root->left = left_result; }
+        }
+        if(root->right){
+            right_result = insert_node(root->right, id, pid, endpoint, parent_id);
+            if(right_result != root->right){ root->right = left_result; }
         }
     }
-
-    TreeNode* new_node = create_node(id, pid, endpoint, parent_node);
-    if(new_node == NULL){ return NULL; }
-    if(id < parent_node->id){ parent_node->left = new_node; }
-    else { parent_node->right = new_node; }
-
     return root;
 }
 
@@ -62,19 +72,20 @@ TreeNode* delete_node_recursive(TreeNode* root, int id) {
 
     if(id < root->id){
         root->left = delete_node_recursive(root->left, id);
-        if(root->left != NULL){root->left->parent = root; }
+        if(root->left != NULL){ root->left->parent = root; }
     } else if(id > root->id) {
         root->right = delete_node_recursive(root->right, id);
         if(root->right != NULL){ root->right->parent = root; }
     } else {
-        if(root->left == NULL){
+        if(root->left == NULL && root->right == NULL){
+            free(root);
+            return NULL;
+        } else if(root->left == NULL){
             TreeNode* temp = root->right;
-            if(temp != NULL){ temp->parent = root->parent; }
             free(root);
             return temp;
         } else if(root->right == NULL){
             TreeNode* temp = root->left;
-            if(temp != NULL){ temp->parent = root->parent; }
             free(root);
             return temp;
         }
@@ -85,8 +96,8 @@ TreeNode* delete_node_recursive(TreeNode* root, int id) {
         strncpy(root->endpoint, temp->endpoint, sizeof(root->endpoint) - 1);
         root->endpoint[sizeof(root->endpoint)-1] = '\0';
         root->right = delete_node_recursive(root->right, temp->id);
-        if(root->right != NULL){ root->right->parent = root; }
     }
+    
     return root;
 }
 

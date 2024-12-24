@@ -32,7 +32,7 @@ void cleanup_pending_operations(void) {
     time_t now = time(NULL);
 
     while(current != NULL){
-        if(now - current->timestamp > 5) {
+        if(now - current->timestamp > 6) {
             PendingOperation* to_delete = current;
             if(prev){
                 prev->next = current->next;
@@ -64,8 +64,8 @@ void check_pending_responses(void) {
         if(poll_result == 1){
             Message msg = {0};
             int recv_result = receive_message(current->socket, &msg);
+            
             if(recv_result > 0){
-
                 if(strcmp(current->command, CMD_PING) == 0){
                     if(msg.is_response == 1){
                         printf("Ok: 1\n");
@@ -93,14 +93,14 @@ void check_pending_responses(void) {
                         printf("Error: %s\n", msg.data);
                     }
                 } else {
-                    if (strcmp(msg.data, "Node is unavailable") == 0) {
+                    if(strcmp(msg.data, "Node is unavailable") == 0) {
                         printf("Error:%d: Node is unavailable\n", current->id);
                     } else {
                         printf("Ok:%d: %s\n", current->id, msg.data);
                     }
                 }
                 
-                if(prev) { prev->next = current->next; }
+                if(prev){ prev->next = current->next; }
                 else { pending_ops = current->next; }
 
                 zmq_close(current->socket);

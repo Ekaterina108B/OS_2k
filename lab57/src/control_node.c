@@ -24,19 +24,21 @@ int create_compute_node(int id, int parent_id) {
         return pid;
     }
 
-    if(parent_id != -1) {
+    if(parent_id == -1) {
         TreeNode* current = root;
+        TreeNode* parent = NULL;
         
         while(current != NULL){
+            parent = current;
             if(id < current->id){
                 current = current->left;
             } else {
                 current = current->right;
             }
         }
-        parent_id = current->parent->id;
+        parent_id = parent->id;
     } else {
-        if (!is_node_exists(root, parent_id)) {
+        if(!is_node_exists(root, parent_id)){
             printf("Error: Parent not found\n");
             return -1;
         }

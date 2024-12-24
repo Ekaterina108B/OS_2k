@@ -19,6 +19,7 @@ void handle_signal(int sig) {
     if(root != NULL){
         kill_tree(root);
         free_tree(root);
+        root = NULL;
     }
     exit(0);
 }
@@ -82,6 +83,11 @@ int main() {
                     printf("Error: Failed to kill process %d\n", pid);
                 }
             } else if(strcmp(command, "exit") == 0){
+                if(root != NULL){
+                    kill_tree(root);
+                    free_tree(root);
+                    root = NULL;
+                }
                 break;
             } else if(strcmp(command, "tree") == 0){
                 show_tree();

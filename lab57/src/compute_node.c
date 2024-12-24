@@ -1,11 +1,17 @@
 #include "compute_node.h"
 
 static int node_id;
-static void* left_socket;
-static void* right_socket;
+static void* left_socket = NULL;
+static void* right_socket = NULL;
+static bool left_child_alive = false;
+static bool right_child_alive = false;
+static int left_child_id = -1;
+static int right_child_id = -1;
 
-void* create_socket(int timeout) {
+
+void* create_socket_with_timeouts(void) {
     void* socket = zmq_socket(zmq_ctx_new(), ZMQ_REQ);
+    int timeout = 250;
     int linger = 0;
     zmq_setsockopt(socket, ZMQ_RCVTIMEO, &timeout, sizeof(timeout));
     zmq_setsockopt(socket, ZMQ_SNDTIMEO, &timeout, sizeof(timeout));
@@ -20,37 +26,38 @@ void connect_to_child(void* socket, int child_id) {
 }
 
 void* setup_child_connection(int child_id) {
-    void* socket = create_socket(250);
+    void* socket = create_socket_with_timeouts();
     connect_to_child(socket, child_id);
     return socket;
 }
 
 bool try_child_socket(void** socket, Message* msg, const char* side) {
+    monitor_children();
+    
     if(*socket){
-        int child_id;
-        if(strcmp(side, "left") == 0){
-            child_id = node_id - 1;
-        } else {
-            child_id = node_id + 1;
-        }
-
-        if(send_message(*socket, msg) <= 0){
-            zmq_close(*socket);
-            *socket = create_socket(250);
-            connect_to_child(*socket, child_id);
+        if((strcmp(side, "left") == 0 && !left_child_alive) ||
+            (strcmp(side, "right") == 0 && !right_child_alive)){
             return false;
         }
+        
+        int child_id;
+        if(strcmp(side, "left") == 0){
+            child_id = left_child_id;
+        } else {
+            child_id = right_child_id;
+        }
+        if(child_id == -1){ return false; }
+
+        send_message(*socket, msg);
         
         Message response = {0};
         int recv_result = receive_message(*socket, &response);
         if(recv_result <= 0){
             zmq_close(*socket);
-            *socket = create_socket(250);
+            *socket = create_socket_with_timeouts();
             connect_to_child(*socket, child_id);
             return false;
-        }
-        
-        if(response.is_response == 1){
+        } else if(response.is_response == 1){
             *msg = response;
             return true;
         }
@@ -79,28 +86,18 @@ char* find_substring(const char* text, const char* pattern) {
 }
 
 void handle_message(Message* msg) {
-    // Системная проверка
-    // printf("Node %d received message: cmd=%s, target=%d, create_child=%d\n", 
-    //        node_id, msg->command, msg->target_id, msg->create_child_id);
-
     if(msg->target_id == node_id){
         if(strcmp(msg->command, CMD_CREATE) == 0){
-            // printf("Node %d handling create for child %d\n", node_id, msg->create_child_id);
-            
-            if((left_socket && msg->create_child_id == node_id - 1) || (right_socket && msg->create_child_id == node_id + 1)){
-                strcpy(msg->data, "Error: Child already connected");
-                msg->is_response = -1;
-                return;
-            }
-            
             if(left_socket != NULL && right_socket != NULL){
-                strcpy(msg->data, "Error: Node is full");
+                strcpy(msg->data, "Node is full");
                 msg->is_response = -1;
                 return;
             }
             
             if(left_socket != NULL){
                 right_socket = setup_child_connection(msg->create_child_id);
+                right_child_id = msg->create_child_id;
+                right_child_alive = true;
                 strcpy(msg->data, "OK");
                 msg->is_response = 1;
                 return;
@@ -108,41 +105,38 @@ void handle_message(Message* msg) {
             
             if(right_socket != NULL){
                 left_socket = setup_child_connection(msg->create_child_id);
+                left_child_id = msg->create_child_id;
+                left_child_alive = true;
                 strcpy(msg->data, "OK");
                 msg->is_response = 1;
                 return;
             }
-        
+            
             if(msg->create_child_id < node_id){
                 left_socket = setup_child_connection(msg->create_child_id);
+                left_child_id = msg->create_child_id;
+                left_child_alive = true;
             } else {
                 right_socket = setup_child_connection(msg->create_child_id);
+                right_child_id = msg->create_child_id;
+                right_child_alive = true;
             }
             strcpy(msg->data, "OK");
             msg->is_response = 1;
-
         } else if(strcmp(msg->command, CMD_PING) == 0){
             strcpy(msg->data, "1");
             msg->is_response = 1;
-
-        } else if(strcmp(msg->command, CMD_EXEC) == 0){
+        } else if (strcmp(msg->command, CMD_EXEC) == 0) {
             char* result = find_substring(msg->data, msg->data + strlen(msg->data) + 1);
             strcpy(msg->data, result);
             msg->is_response = 1;
         }
-
     } else {
-        // Тут можно посмотреть, что сообщения действительно переотправляются только детям
-        // printf("Node %d trying both children\n", node_id);
-        // printf("left_socket: %p\n", left_socket);
-        // printf("right_socket: %p\n", right_socket);
-        
         bool found = false;
         found = try_child_socket(&left_socket, msg, "left");
         if(!found){
             found = try_child_socket(&right_socket, msg, "right");
         }
-
         if(!found){
             strcpy(msg->data, "Node is unavailable");
             msg->is_response = -1;
@@ -160,6 +154,7 @@ void start_compute_node(int id) {
     zmq_bind(socket, endpoint);
 
     while(1){
+        monitor_children();
         Message msg;
         int recv_result = receive_message(socket, &msg);
         if(recv_result > 0){
@@ -167,40 +162,33 @@ void start_compute_node(int id) {
             send_message(socket, &msg);
         }
     }
+    zmq_close(socket);
+    zmq_ctx_destroy(context);
 }
 
-int check_parent(void* context, int parent_id, int id) {
-    if(parent_id < 0){ return 1; }
-    
-    void* parent_socket = zmq_socket(context, ZMQ_REQ);
-    char parent_endpoint[64];
-    sprintf(parent_endpoint, "tcp://localhost:%d", 5555 + parent_id);
-    int timeout = 1000;
-    int linger = 0;
-    zmq_setsockopt(parent_socket, ZMQ_RCVTIMEO, &timeout, sizeof(timeout));
-    zmq_setsockopt(parent_socket, ZMQ_SNDTIMEO, &timeout, sizeof(timeout));
-    zmq_setsockopt(parent_socket, ZMQ_LINGER, &linger, sizeof(linger));
-    if(zmq_connect(parent_socket, parent_endpoint) != 0){
-        zmq_close(parent_socket);
-        return 0;
-    }
-
+bool ping_child(void** socket, int child_id) {
     Message msg = {0};
     strcpy(msg.command, CMD_PING);
-    msg.source_id = id;
-    msg.target_id = parent_id;
-    if(send_message(parent_socket, &msg) <= 0){
-        zmq_close(parent_socket);
-        return 0;
+    msg.source_id = node_id;
+    msg.target_id = child_id;
+    
+    if (send_message(*socket, &msg) <= 0) {
+        return false;
     }
-
-    if(receive_message(parent_socket, &msg) <= 0){
-        zmq_close(parent_socket);
-        return 0;
+    Message response = {0};
+    if (receive_message(*socket, &response) <= 0) {
+        return false;
     }
+    return response.is_response == 1;
+}
 
-    zmq_close(parent_socket);
-    return 1;
+void monitor_children(void){
+    if(left_socket != NULL && left_child_id != -1) {
+        left_child_alive = ping_child(&left_socket, left_child_id);
+    }
+    if (right_socket != NULL && right_child_id != -1) {
+        right_child_alive = ping_child(&right_socket, right_child_id);
+    }
 }
 
 int main(int argc, char *argv[]) {
