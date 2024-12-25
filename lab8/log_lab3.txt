@@ -1,0 +1,65 @@
+14063 execve("./lab3/parent", ["./lab3/parent"], 0x7fff0b313088 /* 91 vars */) = 0
+14063 mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x78504e1f3000
+14063 mmap(NULL, 69951, PROT_READ, MAP_PRIVATE, 3, 0) = 0x78504e1e1000
+14063 read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0P\237\2\0\0\0\0\0"..., 832) = 832
+14063 mmap(NULL, 2264656, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x78504de00000
+14063 mmap(0x78504de28000, 1658880, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x78504de28000
+14063 mmap(0x78504dfbd000, 360448, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1bd000) = 0x78504dfbd000
+14063 mmap(0x78504e016000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x215000) = 0x78504e016000
+14063 mmap(0x78504e01c000, 52816, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x78504e01c000
+14063 mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x78504e1de000
+14063 read(0, "Eins! Hier kommt die Sonne,\n", 1024) = 28
+14063 mmap(NULL, 320, PROT_READ|PROT_WRITE, MAP_SHARED, 5, 0) = 0x78504e22c000
+14063 mmap(NULL, 320, PROT_READ|PROT_WRITE, MAP_SHARED, 6, 0) = 0x78504e1f2000
+14063 clone(child_stack=NULL, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0x78504e1dea10) = 14481
+14063 clone(child_stack=NULL, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0x78504e1dea10) = 14482
+14481 dup2(3, 1)                        = 1
+14481 execve("./lab3/child", ["child", "/shm_channel1"], 0x7fffb223f828 /* 91 vars */ <unfinished ...>
+14482 dup2(4, 1)                        = 1
+14482 execve("./lab3/child", ["child", "/shm_channel2"], 0x7fffb223f828 /* 91 vars */ <unfinished ...>
+14481 <... execve resumed>)             = 0
+14482 <... execve resumed>)             = 0
+14481 mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x78ee6d410000
+14482 mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7462f2a42000
+14481 mmap(NULL, 69951, PROT_READ, MAP_PRIVATE, 3, 0 <unfinished ...>
+14482 mmap(NULL, 69951, PROT_READ, MAP_PRIVATE, 3, 0 <unfinished ...>
+14481 <... mmap resumed>)               = 0x78ee6d3fe000
+14482 <... mmap resumed>)               = 0x7462f2a30000
+14482 read(3,  <unfinished ...>
+14481 read(3,  <unfinished ...>
+14482 <... read resumed>"\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0P\237\2\0\0\0\0\0"..., 832) = 832
+14481 <... read resumed>"\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0P\237\2\0\0\0\0\0"..., 832) = 832
+14482 mmap(NULL, 2264656, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7462f2800000
+14481 mmap(NULL, 2264656, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x78ee6d000000
+14482 mmap(0x7462f2828000, 1658880, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x7462f2828000
+14482 mmap(0x7462f29bd000, 360448, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1bd000 <unfinished ...>
+14481 mmap(0x78ee6d028000, 1658880, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000 <unfinished ...>
+14482 <... mmap resumed>)               = 0x7462f29bd000
+14481 <... mmap resumed>)               = 0x78ee6d028000
+14482 mmap(0x7462f2a16000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x215000 <unfinished ...>
+14481 mmap(0x78ee6d1bd000, 360448, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1bd000 <unfinished ...>
+14482 <... mmap resumed>)               = 0x7462f2a16000
+14481 <... mmap resumed>)               = 0x78ee6d1bd000
+14482 mmap(0x7462f2a1c000, 52816, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0 <unfinished ...>
+14481 mmap(0x78ee6d216000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x215000 <unfinished ...>
+14482 <... mmap resumed>)               = 0x7462f2a1c000
+14481 <... mmap resumed>)               = 0x78ee6d216000
+14481 mmap(0x78ee6d21c000, 52816, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x78ee6d21c000
+14482 mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7462f2a2d000
+14481 mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x78ee6d3fb000
+14482 mmap(NULL, 320, PROT_READ|PROT_WRITE, MAP_SHARED, 3, 0) = 0x7462f2a7b000
+14481 mmap(NULL, 320, PROT_READ|PROT_WRITE, MAP_SHARED, 3, 0) = 0x78ee6d449000
+14481 write(1, ",ennoS ied tmmok\n", 17) = 17
+14063 read(0, "Zwei! Hier kommt die Sonne,\n", 1024) = 28
+14481 write(1, ",ennoS eid tmmok reiH !iewZ\n", 28) = 28
+14063 read(0, "...1234\n", 1024)        = 8
+14482 write(1, "4321...\n", 8)          = 8
+14063 read(0, "Wie sh\303\266n Du bist...\n", 1024) = 21
+14481 write(1, "...tsib u Dn\266\303hs eiW\n", 21) = 21
+14063 read(0, 0x1cf72a0, 1024)          = ? ERESTARTSYS (To be restarted if SA_RESTART is set)
+14482 --- SIGINT {si_signo=SIGINT, si_code=SI_KERNEL} ---
+14063 --- SIGINT {si_signo=SIGINT, si_code=SI_KERNEL} ---
+14481 --- SIGINT {si_signo=SIGINT, si_code=SI_KERNEL} ---
+14482 +++ killed by SIGINT +++
+14481 +++ killed by SIGINT +++
+14063 +++ killed by SIGINT +++

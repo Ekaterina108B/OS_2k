@@ -1,0 +1,27 @@
+dlopen("./libmath1.so", 1)                               = 0x1a992c0
+dlsym(0x1a992c0, "GCF")                                  = 0x76a26d039119
+dlsym(0x1a992c0, "translation")                          = 0x76a26d03916a
+puts("Library 1 is loaded by default.\n"...)             = 33
+__isoc99_scanf(0x402079, 0x7ffe63fece90, 1, 0x76a26cf14887) = 1
+__isoc99_scanf(0x4020b4, 0x7ffe63fece8c, 0x7ffe63fece88, 16) = 2
+printf("GCF: %d\n", 3)                                   = 7
+__isoc99_scanf(0x402079, 0x7ffe63fece90, 0, 1)           = 1
+__isoc99_scanf(0x4020c3, 0x7ffe63fece80, 0, 16)          = 1
+printf("In the 2NS is %s\n", "1010")                     = 19
+free(0x1a9aa00)                                          = <void>
+__isoc99_scanf(0x402079, 0x7ffe63fece90, 6810, 3)        = 1
+dlclose(0x1a992c0)                                       = 0
+dlopen("./libmath2.so", 1)                               = 0x1a992c0
+puts("Library 2 is loaded.")                             = 21
+dlsym(0x1a992c0, "GCF")                                  = 0x76a26d039119
+dlsym(0x1a992c0, "translation")                          = 0x76a26d0391c3
+__isoc99_scanf(0x402079, 0x7ffe63fece90, 0, 1)           = 1
+__isoc99_scanf(0x4020b4, 0x7ffe63fece8c, 0x7ffe63fece88, 16) = 2
+printf("GCF: %d\n", 3)                                   = 7
+__isoc99_scanf(0x402079, 0x7ffe63fece90, 0, 1)           = 1
+__isoc99_scanf(0x4020c3, 0x7ffe63fece80, 0, 16)          = 1
+printf("In the 3NS is %s\n", "101")                      = 18
+free(0x1a99860)                                          = <void>
+__isoc99_scanf(0x402079, 0x7ffe63fece90, 0x1a9b099, 3 <no return ...>
+--- SIGINT (Interrupt) ---
++++ killed by SIGINT +++

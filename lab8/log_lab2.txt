@@ -1,0 +1,41 @@
+26460 execve("./lab2/monte_carlo", ["./lab2/monte_carlo", "10", "1000000"], 0x7ffd7f1d61d8 /* 91 vars */) = 0
+26460 read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0P\237\2\0\0\0\0\0"..., 832) = 832
+26460 clone3({flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, child_tid=0x7f7727e00910, parent_tid=0x7f7727e00910, exit_signal=0, stack=0x7f7727600000, stack_size=0x7fff00, tls=0x7f7727e00640} => {parent_tid=[26461]}, 88) = 26461
+26460 clone3({flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, child_tid=0x7f7727400910, parent_tid=0x7f7727400910, exit_signal=0, stack=0x7f7726c00000, stack_size=0x7fff00, tls=0x7f7727400640} => {parent_tid=[26462]}, 88) = 26462
+26460 clone3({flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, child_tid=0x7f7726a00910, parent_tid=0x7f7726a00910, exit_signal=0, stack=0x7f7726200000, stack_size=0x7fff00, tls=0x7f7726a00640} => {parent_tid=[26463]}, 88) = 26463
+26460 clone3({flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, child_tid=0x7f7726000910, parent_tid=0x7f7726000910, exit_signal=0, stack=0x7f7725800000, stack_size=0x7fff00, tls=0x7f7726000640} => {parent_tid=[26464]}, 88) = 26464
+26460 clone3({flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, child_tid=0x7f7725600910, parent_tid=0x7f7725600910, exit_signal=0, stack=0x7f7724e00000, stack_size=0x7fff00, tls=0x7f7725600640} => {parent_tid=[26465]}, 88) = 26465
+26460 clone3({flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, child_tid=0x7f7724c00910, parent_tid=0x7f7724c00910, exit_signal=0, stack=0x7f7724400000, stack_size=0x7fff00, tls=0x7f7724c00640} => {parent_tid=[26466]}, 88) = 26466
+26460 clone3({flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, child_tid=0x7f7724200910, parent_tid=0x7f7724200910, exit_signal=0, stack=0x7f7723a00000, stack_size=0x7fff00, tls=0x7f7724200640} => {parent_tid=[26467]}, 88) = 26467
+26460 clone3({flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, child_tid=0x7f7723800910, parent_tid=0x7f7723800910, exit_signal=0, stack=0x7f7723000000, stack_size=0x7fff00, tls=0x7f7723800640} => {parent_tid=[26468]}, 88) = 26468
+26460 clone3({flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, child_tid=0x7f7722e00910, parent_tid=0x7f7722e00910, exit_signal=0, stack=0x7f7722600000, stack_size=0x7fff00, tls=0x7f7722e00640} => {parent_tid=[26469]}, 88) = 26469
+26460 clone3({flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, child_tid=0x7f7722400910, parent_tid=0x7f7722400910, exit_signal=0, stack=0x7f7721c00000, stack_size=0x7fff00, tls=0x7f7722400640} => {parent_tid=[26470]}, 88) = 26470
+26461 exit(0)                           = ?
+26461 +++ exited with 0 +++
+26463 exit(0)                           = ?
+26464 exit(0)                           = ?
+26463 +++ exited with 0 +++
+26464 +++ exited with 0 +++
+26462 exit(0)                           = ?
+26462 +++ exited with 0 +++
+26466 exit(0 <unfinished ...>
+26467 exit(0 <unfinished ...>
+26466 <... exit resumed>)               = ?
+26467 <... exit resumed>)               = ?
+26466 +++ exited with 0 +++
+26467 +++ exited with 0 +++
+26465 exit(0)                           = ?
+26465 +++ exited with 0 +++
+26468 exit(0)                           = ?
+26468 +++ exited with 0 +++
+26469 exit(0)                           = ?
+26469 +++ exited with 0 +++
+26470 exit(0)                           = ?
+26470 +++ exited with 0 +++
+26460 write(1, "Total matches: 67906 of 1000000 "..., 40) = 40
+26460 write(1, "The probability that there are t"..., 72) = 72
+26460 write(1, "Number of threads: 10\n", 22) = 22
+26460 write(1, "Number of rounds: 1000000\n", 26) = 26
+26460 write(1, "Execution time: 0.048193 seconds"..., 33) = 33
+26460 exit_group(0)                     = ?
+26460 +++ exited with 0 +++

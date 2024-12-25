@@ -1,0 +1,40 @@
+11200 execve("./lab1/parent", ["./lab1/parent"], 0x7ffcc4a305f8 /* 91 vars */) = 0
+11200 read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0P\237\2\0\0\0\0\0"..., 832) = 832
+11200 read(0, "asdfgrh\n", 1024)        = 8
+11200 read(0, "12345ng\n", 1024)        = 8
+11200 read(0, "asdptk\n", 1024)         = 7
+11200 clone(child_stack=NULL, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0x71f6bdacea10) = 11359
+11200 clone(child_stack=NULL, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0x71f6bdacea10) = 11360
+11200 write(4, "asdptk", 6)             = 6
+11200 write(4, "\n", 1)                 = 1
+11200 read(0,  <unfinished ...>
+11360 dup2(5, 0 <unfinished ...>
+11359 dup2(3, 0 <unfinished ...>
+11360 <... dup2 resumed>)               = 0
+11359 <... dup2 resumed>)               = 0
+11360 execve("./lab1/child_2", ["child_2", "12345ng"], 0x7fff4d50b568 /* 91 vars */ <unfinished ...>
+11359 execve("./lab1/child_1", ["child_1", "asdfgrh"], 0x7fff4d50b568 /* 91 vars */ <unfinished ...>
+11360 <... execve resumed>)             = 0
+11359 <... execve resumed>)             = 0
+11360 read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0P\237\2\0\0\0\0\0"..., 832) = 832
+11359 read(4, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0P\237\2\0\0\0\0\0"..., 832) = 832
+11360 read(0,  <unfinished ...>
+11359 read(0, "asdptk\n", 4096)         = 7
+11359 read(0,  <unfinished ...>
+11200 <... read resumed>"Rrraaaaadio, Oh, mein Radio!\n", 1024) = 29
+11200 write(4, "Rrraaaaadio, Oh, mein Radio!", 28) = 28
+11200 write(4, "\n", 1 <unfinished ...>
+11359 <... read resumed>"Rrraaaaadio, Oh, mein Radio!", 4096) = 28
+11200 <... write resumed>)              = 1
+11200 read(0,  <unfinished ...>
+11359 read(0, "\n", 4096)               = 1
+11359 read(0,  <unfinished ...>
+11200 <... read resumed>0x6772a0, 1024) = ? ERESTARTSYS (To be restarted if SA_RESTART is set)
+11360 <... read resumed>0x23ce590, 4096) = ? ERESTARTSYS (To be restarted if SA_RESTART is set)
+11359 <... read resumed>0x79e590, 4096) = ? ERESTARTSYS (To be restarted if SA_RESTART is set)
+11360 --- SIGINT {si_signo=SIGINT, si_code=SI_KERNEL} ---
+11200 --- SIGINT {si_signo=SIGINT, si_code=SI_KERNEL} ---
+11359 --- SIGINT {si_signo=SIGINT, si_code=SI_KERNEL} ---
+11360 +++ killed by SIGINT +++
+11359 +++ killed by SIGINT +++
+11200 +++ killed by SIGINT +++
